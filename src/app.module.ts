@@ -24,19 +24,30 @@ import { PromosModule } from './promos/promos.module.js';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres' as const,
-        host: configService.get<string>('DB_HOST', 'localhost'),
-        port: configService.get<number>('DB_PORT', 5432),
-        username: configService.get<string>('DB_USERNAME', 'postgres'),
-        password: configService.get<string>('DB_PASSWORD', 'postgres'),
-        database: configService.get<string>('DB_NAME', 'edtech-builder'),
-        entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity],
-        synchronize: true,
-        ssl: configService.get<string>('DB_HOST', 'localhost') !== 'localhost'
-          ? { rejectUnauthorized: false }
-          : false,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const databaseUrl = configService.get<string>('DATABASE_URL');
+        if (databaseUrl) {
+          return {
+            type: 'postgres' as const,
+            url: databaseUrl,
+            entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity],
+            synchronize: true,
+            ssl: { rejectUnauthorized: false },
+          };
+        }
+        const host = configService.get<string>('DB_HOST', 'localhost');
+        return {
+          type: 'postgres' as const,
+          host,
+          port: configService.get<number>('DB_PORT', 5432),
+          username: configService.get<string>('DB_USERNAME', 'postgres'),
+          password: configService.get<string>('DB_PASSWORD', 'postgres'),
+          database: configService.get<string>('DB_NAME', 'edtech-builder'),
+          entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity],
+          synchronize: true,
+          ssl: host !== 'localhost' ? { rejectUnauthorized: false } : false,
+        };
+      },
       inject: [ConfigService],
     }),
     AuthModule,
