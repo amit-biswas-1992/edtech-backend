@@ -9,23 +9,35 @@ let app: any;
 
 async function createApp() {
   if (!app) {
-    const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(server));
+    try {
+      const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+        logger: ['error', 'warn', 'log'],
+      });
 
-    nestApp.enableCors({
-      origin: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      credentials: true,
-    });
+      nestApp.enableCors({
+        origin: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        credentials: true,
+      });
 
-    nestApp.useGlobalPipes(globalValidationPipe);
+      nestApp.useGlobalPipes(globalValidationPipe);
 
-    await nestApp.init();
-    app = nestApp;
+      await nestApp.init();
+      app = nestApp;
+    } catch (error: any) {
+      console.error('NestJS Bootstrap Error:', error?.message, error?.stack);
+      throw error;
+    }
   }
   return server;
 }
 
 export default async function handler(req: any, res: any) {
-  const app = await createApp();
-  app(req, res);
+  try {
+    const app = await createApp();
+    app(req, res);
+  } catch (error: any) {
+    console.error('Handler Error:', error?.message);
+    res.status(500).json({ error: error?.message || 'Bootstrap failed' });
+  }
 }
