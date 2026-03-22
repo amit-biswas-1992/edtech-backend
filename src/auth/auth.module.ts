@@ -14,7 +14,7 @@ import { UsersModule } from '../users/users.module.js';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET')!,
+        secret: configService.get<string>('JWT_SECRET', 'edtech-builder-default-jwt-secret'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d') as any,
         },

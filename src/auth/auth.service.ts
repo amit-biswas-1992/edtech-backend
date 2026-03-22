@@ -29,11 +29,16 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const token = this.generateToken(user.id, user.email);
-    return {
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
-      access_token: token,
-    };
+    try {
+      const token = this.generateToken(user.id, user.email);
+      return {
+        user: { id: user.id, name: user.name, email: user.email, role: user.role },
+        access_token: token,
+      };
+    } catch (error: any) {
+      console.error('JWT Sign Error:', error?.message, error?.stack);
+      throw error;
+    }
   }
 
   async login(dto: LoginDto) {

@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
   ) {
-    const secret = configService.get<string>('JWT_SECRET')!;
+    const secret = configService.get<string>('JWT_SECRET', 'edtech-builder-default-jwt-secret');
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
