@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../src/app.module.js';
 import { globalValidationPipe } from '../src/common/pipes/validation.pipe.js';
+import { AllExceptionsFilter } from '../src/common/filters/all-exceptions.filter.js';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
 
@@ -21,6 +22,20 @@ async function createApp() {
       });
 
       nestApp.useGlobalPipes(globalValidationPipe);
+      nestApp.useGlobalFilters(new AllExceptionsFilter());
+
+      // Health check
+      const expressApp = nestApp.getHttpAdapter().getInstance();
+      expressApp.get('/health', (_req: any, healthRes: any) => {
+        healthRes.json({
+          status: 'ok',
+          env: {
+            hasJwtSecret: !!process.env.JWT_SECRET,
+            jwtSecretLength: process.env.JWT_SECRET?.length || 0,
+            hasDbUrl: !!process.env.DATABASE_URL,
+          },
+        });
+      });
 
       await nestApp.init();
       app = nestApp;
@@ -37,7 +52,6 @@ export default async function handler(req: any, res: any) {
     const app = await createApp();
     app(req, res);
   } catch (error: any) {
-    console.error('Handler Error:', error?.message);
     res.status(500).json({ error: error?.message || 'Bootstrap failed' });
   }
 }
