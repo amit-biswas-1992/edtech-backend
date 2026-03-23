@@ -45,7 +45,7 @@ export class SitesService {
       colorTheme: dto.colorTheme || {
         primary: '#4F46E5',
         secondary: '#7C3AED',
-        accent: '#F59E0B',
+        accent: '#C4B5FD',
         background: '#FFFFFF',
         text: '#1F2937',
         name: 'Default',
