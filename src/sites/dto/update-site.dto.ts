@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString, Matches } from 'class-validator';
+import { IsBoolean, IsObject, IsOptional, IsString, Matches } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateSiteDto } from './create-site.dto.js';
 
@@ -43,4 +43,17 @@ export class UpdateSiteDto extends PartialType(CreateSiteDto) {
     message: 'Subdomain must be lowercase alphanumeric with hyphens',
   })
   subdomain?: string;
+
+  @ApiPropertyOptional({
+    example: {
+      whatsappNumber: '+8801700000000',
+      whatsappMessage: 'Hi, I want to know about your admission programs',
+      messengerPageId: 'your-facebook-page-id',
+      showWhatsapp: true,
+      showMessenger: false,
+    },
+  })
+  @IsOptional()
+  @IsObject()
+  chatConfig?: Record<string, any>;
 }

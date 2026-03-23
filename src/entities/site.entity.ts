@@ -14,6 +14,10 @@ import { SiteSectionEntity } from './site-section.entity.js';
 import { TeacherEntity } from './teacher.entity.js';
 import { CourseEntity } from './course.entity.js';
 import { PromoEntity } from './promo.entity.js';
+import { EnrollmentEntity } from './enrollment.entity.js';
+import { ScheduleEntity } from './schedule.entity.js';
+import { ResultEntity } from './result.entity.js';
+import { NoticeEntity } from './notice.entity.js';
 
 export interface ColorTheme {
   primary: string;
@@ -22,6 +26,14 @@ export interface ColorTheme {
   background: string;
   text: string;
   name: string;
+}
+
+export interface ChatConfig {
+  whatsappNumber?: string;
+  whatsappMessage?: string;
+  messengerPageId?: string;
+  showWhatsapp?: boolean;
+  showMessenger?: boolean;
 }
 
 @Entity('sites')
@@ -73,6 +85,9 @@ export class SiteEntity {
   @Column({ default: false })
   isPublished: boolean;
 
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  chatConfig: ChatConfig;
+
   @OneToMany(() => SiteSectionEntity, (section) => section.site, {
     cascade: true,
   })
@@ -86,6 +101,22 @@ export class SiteEntity {
 
   @OneToMany(() => PromoEntity, (promo) => promo.site, { cascade: true })
   promos: PromoEntity[];
+
+  @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.site, {
+    cascade: true,
+  })
+  enrollments: EnrollmentEntity[];
+
+  @OneToMany(() => ScheduleEntity, (schedule) => schedule.site, {
+    cascade: true,
+  })
+  schedules: ScheduleEntity[];
+
+  @OneToMany(() => ResultEntity, (result) => result.site, { cascade: true })
+  results: ResultEntity[];
+
+  @OneToMany(() => NoticeEntity, (notice) => notice.site, { cascade: true })
+  notices: NoticeEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

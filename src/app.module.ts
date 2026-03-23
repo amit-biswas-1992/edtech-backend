@@ -13,9 +13,17 @@ import { SiteSectionEntity } from './entities/site-section.entity.js';
 import { TeacherEntity } from './entities/teacher.entity.js';
 import { CourseEntity } from './entities/course.entity.js';
 import { PromoEntity } from './entities/promo.entity.js';
+import { EnrollmentEntity } from './entities/enrollment.entity.js';
+import { ScheduleEntity } from './entities/schedule.entity.js';
+import { ResultEntity } from './entities/result.entity.js';
+import { NoticeEntity } from './entities/notice.entity.js';
 import { TeachersModule } from './teachers/teachers.module.js';
 import { CoursesModule } from './courses/courses.module.js';
 import { PromosModule } from './promos/promos.module.js';
+import { EnrollmentsModule } from './enrollments/enrollments.module.js';
+import { SchedulesModule } from './schedules/schedules.module.js';
+import { ResultsModule } from './results/results.module.js';
+import { NoticesModule } from './notices/notices.module.js';
 
 @Module({
   imports: [
@@ -30,7 +38,7 @@ import { PromosModule } from './promos/promos.module.js';
           return {
             type: 'postgres' as const,
             url: databaseUrl,
-            entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity],
+            entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity],
             synchronize: true,
             ssl: { rejectUnauthorized: false },
           };
@@ -43,7 +51,7 @@ import { PromosModule } from './promos/promos.module.js';
           username: configService.get<string>('DB_USERNAME', 'postgres'),
           password: configService.get<string>('DB_PASSWORD', 'postgres'),
           database: configService.get<string>('DB_NAME', 'edtech-builder'),
-          entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity],
+          entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity],
           synchronize: true,
           ssl: host !== 'localhost' ? { rejectUnauthorized: false } : false,
         };
@@ -58,6 +66,10 @@ import { PromosModule } from './promos/promos.module.js';
     TeachersModule,
     CoursesModule,
     PromosModule,
+    EnrollmentsModule,
+    SchedulesModule,
+    ResultsModule,
+    NoticesModule,
   ],
 })
 export class AppModule {}
