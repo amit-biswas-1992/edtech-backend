@@ -13,6 +13,12 @@ export enum UserRole {
   USER = 'user',
 }
 
+export enum AuthProvider {
+  LOCAL = 'local',
+  GOOGLE = 'google',
+  PHONE = 'phone',
+}
+
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -21,11 +27,30 @@ export class UserEntity {
   @Column()
   name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
-  @Column({ select: false })
+  @Column({ select: false, nullable: true })
   password: string;
+
+  @Column({ unique: true, nullable: true })
+  phone: string;
+
+  @Column({ select: false, nullable: true })
+  pin: string;
+
+  @Column({ unique: true, nullable: true })
+  googleId: string;
+
+  @Column({ nullable: true })
+  avatar: string;
+
+  @Column({
+    type: 'enum',
+    enum: AuthProvider,
+    default: AuthProvider.LOCAL,
+  })
+  authProvider: AuthProvider;
 
   @Column({
     type: 'enum',
