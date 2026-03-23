@@ -56,4 +56,14 @@ export class UpdateSiteDto extends PartialType(CreateSiteDto) {
   @IsOptional()
   @IsObject()
   chatConfig?: Record<string, any>;
+
+  @ApiPropertyOptional({ example: 'light' })
+  @IsOptional()
+  @IsString()
+  themeMode?: string;
+
+  @ApiPropertyOptional({ example: 'bn' })
+  @IsOptional()
+  @IsString()
+  language?: string;
 }

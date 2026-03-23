@@ -88,6 +88,12 @@ export class SiteEntity {
   @Column({ type: 'jsonb', nullable: true, default: null })
   chatConfig: ChatConfig;
 
+  @Column({ type: 'varchar', default: 'light' })
+  themeMode: string;
+
+  @Column({ type: 'varchar', default: 'bn' })
+  language: string;
+
   @OneToMany(() => SiteSectionEntity, (section) => section.site, {
     cascade: true,
   })
