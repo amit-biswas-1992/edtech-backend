@@ -66,4 +66,9 @@ export class UpdateSiteDto extends PartialType(CreateSiteDto) {
   @IsOptional()
   @IsString()
   language?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsObject()
+  fontConfig?: Record<string, any>;
 }

@@ -95,6 +95,9 @@ export class SiteEntity {
   @Column({ type: 'varchar', default: 'bn' })
   language: string;
 
+  @Column({ type: 'jsonb', nullable: true, default: null })
+  fontConfig: Record<string, any>;
+
   @OneToMany(() => SiteSectionEntity, (section) => section.site, {
     cascade: true,
   })
