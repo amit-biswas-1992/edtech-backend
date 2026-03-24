@@ -18,6 +18,7 @@ import { EnrollmentEntity } from './enrollment.entity.js';
 import { ScheduleEntity } from './schedule.entity.js';
 import { ResultEntity } from './result.entity.js';
 import { NoticeEntity } from './notice.entity.js';
+import { SitePageEntity } from './site-page.entity.js';
 
 export interface ColorTheme {
   primary: string;
@@ -123,6 +124,9 @@ export class SiteEntity {
 
   @OneToMany(() => NoticeEntity, (notice) => notice.site, { cascade: true })
   notices: NoticeEntity[];
+
+  @OneToMany(() => SitePageEntity, (page) => page.site, { cascade: true })
+  pages: SitePageEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

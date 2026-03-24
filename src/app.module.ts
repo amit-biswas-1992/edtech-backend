@@ -17,6 +17,11 @@ import { EnrollmentEntity } from './entities/enrollment.entity.js';
 import { ScheduleEntity } from './entities/schedule.entity.js';
 import { ResultEntity } from './entities/result.entity.js';
 import { NoticeEntity } from './entities/notice.entity.js';
+import { SitePageEntity } from './entities/site-page.entity.js';
+import { ExamEntity } from './entities/exam.entity.js';
+import { QuestionEntity } from './entities/question.entity.js';
+import { ExamAttemptEntity } from './entities/exam-attempt.entity.js';
+import { PaymentEntity } from './entities/payment.entity.js';
 import { TeachersModule } from './teachers/teachers.module.js';
 import { CoursesModule } from './courses/courses.module.js';
 import { PromosModule } from './promos/promos.module.js';
@@ -24,6 +29,10 @@ import { EnrollmentsModule } from './enrollments/enrollments.module.js';
 import { SchedulesModule } from './schedules/schedules.module.js';
 import { ResultsModule } from './results/results.module.js';
 import { NoticesModule } from './notices/notices.module.js';
+import { PagesModule } from './pages/pages.module.js';
+import { ExamsModule } from './exams/exams.module.js';
+import { ExamAttemptsModule } from './exam-attempts/exam-attempts.module.js';
+import { PaymentsModule } from './payments/payments.module.js';
 
 @Module({
   imports: [
@@ -38,7 +47,7 @@ import { NoticesModule } from './notices/notices.module.js';
           return {
             type: 'postgres' as const,
             url: databaseUrl,
-            entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity],
+            entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity, SitePageEntity, ExamEntity, QuestionEntity, ExamAttemptEntity, PaymentEntity],
             synchronize: true,
             ssl: { rejectUnauthorized: false },
           };
@@ -51,7 +60,7 @@ import { NoticesModule } from './notices/notices.module.js';
           username: configService.get<string>('DB_USERNAME', 'postgres'),
           password: configService.get<string>('DB_PASSWORD', 'postgres'),
           database: configService.get<string>('DB_NAME', 'edtech-builder'),
-          entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity],
+          entities: [UserEntity, TemplateEntity, SiteEntity, SiteSectionEntity, TeacherEntity, CourseEntity, PromoEntity, EnrollmentEntity, ScheduleEntity, ResultEntity, NoticeEntity, SitePageEntity, ExamEntity, QuestionEntity, ExamAttemptEntity, PaymentEntity],
           synchronize: true,
           ssl: host !== 'localhost' ? { rejectUnauthorized: false } : false,
         };
@@ -70,6 +79,10 @@ import { NoticesModule } from './notices/notices.module.js';
     SchedulesModule,
     ResultsModule,
     NoticesModule,
+    PagesModule,
+    ExamsModule,
+    ExamAttemptsModule,
+    PaymentsModule,
   ],
 })
 export class AppModule {}

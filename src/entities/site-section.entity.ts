@@ -7,6 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { SiteEntity } from './site.entity.js';
+import { SitePageEntity } from './site-page.entity.js';
 
 export enum SectionType {
   HERO = 'hero',
@@ -37,6 +38,13 @@ export class SiteSectionEntity {
   @ManyToOne(() => SiteEntity, (site) => site.sections, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'siteId' })
   site: SiteEntity;
+
+  @Column({ nullable: true })
+  pageId: string;
+
+  @ManyToOne(() => SitePageEntity, (page) => page.sections, { onDelete: 'CASCADE', nullable: true })
+  @JoinColumn({ name: 'pageId' })
+  page: SitePageEntity;
 
   @Column({
     type: 'enum',
